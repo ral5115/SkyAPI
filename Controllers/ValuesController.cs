@@ -20,27 +20,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            //DataSet structure =  new DataSet();
-            //StringBuilder plane = new StringBuilder("0000001");
-
-            //SQLTransaction ejecutar = new SQLTransaction();
-            //structure = ejecutar.GetStruct();
-
-            //for (int i = 1; i < structure.Tables[0].Rows.Count; i++)
-            //{
-            //    //var a = structure.Tables[0].Rows[i]["Orden"].ToString();
-
-            //    if (structure.Tables[0].Rows[i]["Fuente"].ToString() == "")
-            //    {
-            //        plane.Append(structure.Tables[0].Rows[i]["ValorFijo"].ToString());
-            //    }                
-
-            //    if (structure.Tables[0].Rows[i]["Orden"].ToString() == "1")
-            //        plane.AppendLine();
-                
-            //}
-
-            //var a = plane.ToString();
+            
             return new string[] { "", "value2" };
         }
 
@@ -55,39 +35,73 @@ namespace WebAPI.Controllers
         [HttpPost]
         public void Post([FromBody] JObject value)
         {
-            DataSet ds = new DataSet();
+            string ConectorType = (string)value["Conector"];
 
 
-            foreach (JProperty property in value.Children().Where(t => t is JProperty).OfType<JProperty>())
+            //foreach (var token in value.Children())
+            //{
+            //    foreach (var item in token.Children())
+            //    {
+            //        foreach (JProperty property in item.Children().Where(t => t is JProperty).OfType<JProperty>())
+            //        {
+            //            var a = property.Value;
+            //            var h = property.Name;
+            //        }
+
+            //    }
+
+
+            //}
+
+            try
             {
-                var a = property.Value;
-                
-            }
+                DataSet structure = new DataSet();
+                StringBuilder plane = new StringBuilder("0000001");
 
-            string fieldName = "";
+                SQLTransaction ejecutar = new SQLTransaction();
+                structure = ejecutar.GetStruct();
 
-            foreach (var token in value.Children())
-            {
-                foreach (var item in token.Children())
+
+
+                for (int i = 1; i < structure.Tables[0].Rows.Count; i++)
                 {
-                    var x = item;
-                    foreach (JProperty property in item.Children().Where(t => t is JProperty).OfType<JProperty>())
-                    {
+                    //var a = structure.Tables[0].Rows[i]["Orden"].ToString();
 
-                        var a = property.Value;
-                        var t = property.Name;
-                        //var r = item2;
-                        //var t = r.Path;
-                        //var i = t.Remove(0, 8);
-                        //var h = r[i.ToString()].ToString();
+                    if (structure.Tables[0].Rows[i]["Fuente"].ToString() == "")
+                    {
+                        plane.Append(structure.Tables[0].Rows[i]["ValorFijo"].ToString());
                     }
-                    //var m = item.Value;
+                    else
+                    {
+                        int length = (int)(structure.Tables[0].Rows[i]["Tamano"]);
+                        if (structure.Tables[0].Rows[i]["Tipo"].ToString() == "Alfanumerico")
+                        {
+                            plane.Append(((string)value[structure.Tables[0].Rows[i]["Fuente"].ToString()]).PadRight(length, ' '));
+                        }
+                        else
+                        {
+                            plane.Append(((string)value[structure.Tables[0].Rows[i]["Fuente"].ToString()]).PadLeft(length, '0'));
+                        }
+
+                    }
+
+                    if (structure.Tables[0].Rows[i]["Orden"].ToString() == "1")
+                        plane.AppendLine();
+
                 }
 
-                string replaceString = "%{" + token.Path + "}";
-                fieldName = fieldName.Replace(replaceString, value[token.Path].ToString());
-                var n = value[token.Children()];
+                var a = plane.ToString();
             }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            
+
+            
+
         }
 
         // PUT api/values/5
