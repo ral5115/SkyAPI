@@ -63,35 +63,70 @@ namespace WebAPI.Controllers
 
                 int consectLine = 2;
 
-                for (int i = 1; i < structure.Tables[0].Rows.Count; i++)
+                for (int i = 13; i < structure.Tables[0].Rows.Count; i++)
                 {
-                    if (structure.Tables[0].Rows[i]["Orden"].ToString() == "1")
+                    if (structure.Tables[0].Rows[i]["Movto"].ToString()== "0")
                     {
-                        plane.AppendLine();
-                        plane.Append((consectLine).ToString().PadLeft(7,'0'));
-                        consectLine++;
-                    }
-                        
-
-                    if (structure.Tables[0].Rows[i]["Fuente"].ToString() == "")
-                    {
-                        plane.Append(structure.Tables[0].Rows[i]["ValorFijo"].ToString());
-                    }
-                    else
-                    {
-                        int length = (int)(structure.Tables[0].Rows[i]["Tamano"]);
-                        if (structure.Tables[0].Rows[i]["Tipo"].ToString() == "Alfanumerico")
+                        if (structure.Tables[0].Rows[i]["Orden"].ToString() == "1")
                         {
-                            plane.Append(((string)value[structure.Tables[0].Rows[i]["Fuente"].ToString()]).PadRight(length, ' '));
+                            plane.AppendLine();
+                            plane.Append((consectLine).ToString().PadLeft(7, '0'));
+                            consectLine++;
+                        }
+
+
+                        if (structure.Tables[0].Rows[i]["Fuente"].ToString() == "")
+                        {
+                            plane.Append(structure.Tables[0].Rows[i]["ValorFijo"].ToString());
                         }
                         else
                         {
-                            plane.Append(((string)value[structure.Tables[0].Rows[i]["Fuente"].ToString()]).PadLeft(length, '0'));
+                            int length = (int)(structure.Tables[0].Rows[i]["Tamano"]);
+                            if (structure.Tables[0].Rows[i]["Tipo"].ToString() == "Alfanumerico")
+                            {
+                                plane.Append(((string)value[structure.Tables[0].Rows[i]["Fuente"].ToString()]).PadRight(length, ' '));
+                            }
+                            else
+                            {
+                                var u = structure.Tables[0].Rows[i]["Fuente"].ToString();
+
+                                plane.Append(((string)value[structure.Tables[0].Rows[i]["Fuente"].ToString()]).PadLeft(length, '0'));
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        if (structure.Tables[0].Rows[i]["Orden"].ToString() == "1")
+                        {
+                            plane.AppendLine();
+                            plane.Append((consectLine).ToString().PadLeft(7, '0'));
+                            consectLine++;
+                        }
+
+                        if (structure.Tables[0].Rows[i]["Fuente"].ToString() == "")
+                        {
+                            plane.Append(structure.Tables[0].Rows[i]["ValorFijo"].ToString());
+                        }
+                        else
+                        {
+                            string section = structure.Tables[0].Rows[i]["desc_seccion"].ToString();
+                            int length = (int)(structure.Tables[0].Rows[i]["Tamano"]);
+                            if (structure.Tables[0].Rows[i]["Tipo"].ToString() == "Alfanumerico")
+                            {
+                                plane.Append(((string)value[section][structure.Tables[0].Rows[i]["Fuente"].ToString()]).PadRight(length, ' '));
+                            }
+                            else
+                            {
+                                plane.Append(((string)value[section][structure.Tables[0].Rows[i]["Fuente"].ToString()]).PadLeft(length, '0'));
+                            }
+
                         }
 
                     }
 
-                    
+
                     var a = plane.ToString();
                 }
 
