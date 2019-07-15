@@ -61,11 +61,17 @@ namespace WebAPI.Controllers
                 SQLTransaction ejecutar = new SQLTransaction();
                 structure = ejecutar.GetStruct();
 
-
+                int consectLine = 2;
 
                 for (int i = 1; i < structure.Tables[0].Rows.Count; i++)
                 {
-                    //var a = structure.Tables[0].Rows[i]["Orden"].ToString();
+                    if (structure.Tables[0].Rows[i]["Orden"].ToString() == "1")
+                    {
+                        plane.AppendLine();
+                        plane.Append((consectLine).ToString().PadLeft(7,'0'));
+                        consectLine++;
+                    }
+                        
 
                     if (structure.Tables[0].Rows[i]["Fuente"].ToString() == "")
                     {
@@ -85,14 +91,14 @@ namespace WebAPI.Controllers
 
                     }
 
-                    if (structure.Tables[0].Rows[i]["Orden"].ToString() == "1")
-                        plane.AppendLine();
-
+                    
+                    var a = plane.ToString();
                 }
 
-                var a = plane.ToString();
+                
             }
             catch (Exception e)
+
             {
 
                 throw;
