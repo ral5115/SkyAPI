@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
                     JObject json = value[j];
                     planeBuild = new PlaneBuilder();
                     plane.Append( planeBuild.BuildMasters(j,structure, json, ref consectLine));
-                    
+                    //plane.Append(planeBuild.BuildDetails()); --aqui quede
                     try
                     {
                         

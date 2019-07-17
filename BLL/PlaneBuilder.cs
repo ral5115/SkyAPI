@@ -49,46 +49,41 @@ namespace WebAPI.BLL
         }
         public string BuildDetails(int details, DataSet structure, JObject json, ref int consectLine)
         {
-
-
-            for (int i = 1; i < structure.Tables[2].Rows.Count; i++)
+            for (int id = 0; id < details; id++)
             {
-
-
-                string section = structure.Tables[2].Rows[i]["desc_seccion"].ToString();
-                if (structure.Tables[2].Rows[i]["Orden"].ToString() == "1")
+                for (int i = 1; i < structure.Tables[2].Rows.Count; i++)
                 {
-                    plane.AppendLine();
-                    plane.Append((consectLine).ToString().PadLeft(7, '0'));
-                    consectLine++;
-                }
-
-                if (structure.Tables[2].Rows[i]["Fuente"].ToString() == "")
-                {
-                    plane.Append(structure.Tables[2].Rows[i]["ValorFijo"].ToString());
-                }
-                else
-                {
-                    int length = (int)(structure.Tables[2].Rows[i]["Tamano"]);
-                    if (structure.Tables[2].Rows[i]["Tipo"].ToString() == "Alfanumerico")
+                    string section = structure.Tables[2].Rows[i]["desc_seccion"].ToString();
+                    if (structure.Tables[2].Rows[i]["Orden"].ToString() == "1")
                     {
-                        //plane.Append(((string)value[j][section][jmov][structure.Tables[0].Rows[i]["Fuente"].ToString()]).PadRight(length, ' '));
+                        plane.AppendLine();
+                        plane.Append((consectLine).ToString().PadLeft(7, '0'));
+                        consectLine++;
+                    }
+
+                    if (structure.Tables[2].Rows[i]["Fuente"].ToString() == "")
+                    {
+                        plane.Append(structure.Tables[2].Rows[i]["ValorFijo"].ToString());
                     }
                     else
                     {
-                        //plane.Append(((string)value[j][section][jmov][structure.Tables[0].Rows[i]["Fuente"].ToString()]).PadLeft(length, '0'));
+                        int length = (int)(structure.Tables[2].Rows[i]["Tamano"]);
+                        if (structure.Tables[2].Rows[i]["Tipo"].ToString() == "Alfanumerico")
+                        {
+                            plane.Append(((string)json[section][id][structure.Tables[2].Rows[i]["Fuente"].ToString()]).PadRight(length, ' '));
+                        }
+                        else
+                        {
+                            plane.Append(((string)json[section][id][structure.Tables[2].Rows[i]["Fuente"].ToString()]).PadLeft(length, '0'));
+                        }
+
                     }
-
+                    var a = plane.ToString();
                 }
-
-
-
-
-
-                var a = plane.ToString();
+                consectLine++;
             }
 
-            return "";
+            return plane.ToString();
         }
 
     }
