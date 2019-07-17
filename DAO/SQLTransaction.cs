@@ -30,6 +30,8 @@ public static IConfiguration Configuration { get; set; }
                 daData.SelectCommand = command;
                 daData.Fill(result);
                 result.Tables[0].TableName = "Struct";
+                result.Tables[1].TableName = "StructMasters";
+                result.Tables[2].TableName = "StructDetails";
             }
             catch (Exception e)
             {
