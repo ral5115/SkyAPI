@@ -36,24 +36,16 @@ namespace WebAPI.Controllers
             {
                 for (int j = 0; j < value.Count; j++)
                 {
-
+                  try
+                    {
                     string ConectorType = (string)value[j]["Conector"];
                     JObject json = value[j];
                     planeBuild = new PlaneBuilder();
                     plane.Append( planeBuild.BuildMasters(j,structure, json, ref consectLine));
-                    //plane.Append(planeBuild.BuildDetails()); --aqui quede
-                    try
-                    {
-                        
-
-                        
-
-
+                    plane.Append(planeBuild.BuildDetails(structure, json, ref consectLine));
                     }
                     catch (Exception e)
-
                     {
-
                         throw;
                     }
 
