@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
     {
         PlaneBuilder planeBuild;
         StringBuilder plane = new StringBuilder();
-        int consectLine = 2;
+        int consectLine = 1;
 
         // POST api/values
         [HttpPost]
@@ -30,8 +30,8 @@ namespace WebAPI.Controllers
             DataSet structure = new DataSet();
             SQLTransaction ejecutar = new SQLTransaction();
             structure = ejecutar.GetStruct();
-            
-                
+            planeBuild = new PlaneBuilder();
+
             if (value != null)
             {
                 for (int j = 0; j < value.Count; j++)
@@ -40,9 +40,12 @@ namespace WebAPI.Controllers
                     {
                     string ConectorType = (string)value[j]["Conector"];
                     JObject json = value[j];
-                    planeBuild = new PlaneBuilder();
-                    plane.Append( planeBuild.BuildMasters(j,structure, json, ref consectLine));
+
+                    plane.Append(planeBuild.BuildInitial(structure, json));
+                    plane.Append( planeBuild.BuildMasters(structure, json, ref consectLine));
                     plane.Append(planeBuild.BuildDetails(structure, json, ref consectLine));
+                    plane.Append(planeBuild.BuildFinal(structure, json, ref consectLine));
+                    var p = plane.ToString();
                     }
                     catch (Exception e)
                     {
