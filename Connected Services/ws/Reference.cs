@@ -7,13 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace wsSiesaERP
+namespace ws
 {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="wsSiesaERP.WSUNOEESoap")]
-    public interface WSUNOEESoap
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ws.WSUNOEESoap")]
+    internal interface WSUNOEESoap
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/CrearConexionXML", ReplyAction="*")]
@@ -22,7 +22,7 @@ namespace wsSiesaERP
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/EjecutarConsultaXML", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<wsSiesaERP.ArrayOfXElement> EjecutarConsultaXMLAsync(string pvstrxmlParametros);
+        System.Threading.Tasks.Task<ws.ArrayOfXElement> EjecutarConsultaXMLAsync(string pvstrxmlParametros);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/LeerEsquemaParametros", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -31,7 +31,7 @@ namespace wsSiesaERP
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ImportarXML", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<wsSiesaERP.ImportarXMLResponse> ImportarXMLAsync(wsSiesaERP.ImportarXMLRequest request);
+        System.Threading.Tasks.Task<ws.ImportarXMLResponse> ImportarXMLAsync(ws.ImportarXMLRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/InicializarVariablesImportacion", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -45,7 +45,7 @@ namespace wsSiesaERP
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ImportarXML", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-    public partial class ImportarXMLRequest
+    internal partial class ImportarXMLRequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
@@ -68,11 +68,11 @@ namespace wsSiesaERP
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ImportarXMLResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-    public partial class ImportarXMLResponse
+    internal partial class ImportarXMLResponse
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
-        public wsSiesaERP.ArrayOfXElement ImportarXMLResult;
+        public ws.ArrayOfXElement ImportarXMLResult;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
         public short printTipoError;
@@ -81,7 +81,7 @@ namespace wsSiesaERP
         {
         }
         
-        public ImportarXMLResponse(wsSiesaERP.ArrayOfXElement ImportarXMLResult, short printTipoError)
+        public ImportarXMLResponse(ws.ArrayOfXElement ImportarXMLResult, short printTipoError)
         {
             this.ImportarXMLResult = ImportarXMLResult;
             this.printTipoError = printTipoError;
@@ -89,13 +89,13 @@ namespace wsSiesaERP
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
-    public interface WSUNOEESoapChannel : wsSiesaERP.WSUNOEESoap, System.ServiceModel.IClientChannel
+    internal interface WSUNOEESoapChannel : ws.WSUNOEESoap, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
-    public partial class WSUNOEESoapClient : System.ServiceModel.ClientBase<wsSiesaERP.WSUNOEESoap>, wsSiesaERP.WSUNOEESoap
+    internal partial class WSUNOEESoapClient : System.ServiceModel.ClientBase<ws.WSUNOEESoap>, ws.WSUNOEESoap
     {
         
         /// <summary>
@@ -136,7 +136,7 @@ namespace wsSiesaERP
             return base.Channel.CrearConexionXMLAsync(pvstrxmlConexion);
         }
         
-        public System.Threading.Tasks.Task<wsSiesaERP.ArrayOfXElement> EjecutarConsultaXMLAsync(string pvstrxmlParametros)
+        public System.Threading.Tasks.Task<ws.ArrayOfXElement> EjecutarConsultaXMLAsync(string pvstrxmlParametros)
         {
             return base.Channel.EjecutarConsultaXMLAsync(pvstrxmlParametros);
         }
@@ -146,7 +146,7 @@ namespace wsSiesaERP
             return base.Channel.LeerEsquemaParametrosAsync(pvstrxmlParametros);
         }
         
-        public System.Threading.Tasks.Task<wsSiesaERP.ImportarXMLResponse> ImportarXMLAsync(wsSiesaERP.ImportarXMLRequest request)
+        public System.Threading.Tasks.Task<ws.ImportarXMLResponse> ImportarXMLAsync(ws.ImportarXMLRequest request)
         {
             return base.Channel.ImportarXMLAsync(request);
         }
@@ -222,7 +222,7 @@ namespace wsSiesaERP
     
     [System.Xml.Serialization.XmlSchemaProviderAttribute(null, IsAny=true)]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil-lib", "2.0.0.1")]
-    public partial class ArrayOfXElement : object, System.Xml.Serialization.IXmlSerializable
+    internal partial class ArrayOfXElement : object, System.Xml.Serialization.IXmlSerializable
     {
         
         private System.Collections.Generic.List<System.Xml.Linq.XElement> nodesList = new System.Collections.Generic.List<System.Xml.Linq.XElement>();

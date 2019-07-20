@@ -55,12 +55,15 @@ namespace WebAPI.Controllers
                 }
                 plane.Append(planeBuild.BuildFinal(structure, value[0], ref consectLine));//construye linea final
                 string Plano = plane.ToString();
+
+
             }
 
 
         }
 
-        //wsSiesaERP.WSUNOEESoapClient ws = new wsSiesaERP.WSUNOEESoapChannel;
         
+        
+
     }
 }

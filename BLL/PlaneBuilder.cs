@@ -175,5 +175,18 @@ namespace WebAPI.BLL
             return plane.ToString();
         }
 
+
+        public void SendInformationWS(string xml)
+        {
+            ws.WSUNOEESoap wsSIESA = new ws.WSUNOEESoapClient(ws.WSUNOEESoapClient.EndpointConfiguration.WSUNOEESoap);
+            ws.ImportarXMLRequest request = new ws.ImportarXMLRequest();
+            request.printTipoError = 0;
+            request.pvstrDatos = xml;
+            var result = wsSIESA.ImportarXMLAsync(request);
+    }
+        public void GenerateXMLStruct(string plane)
+        {
+            
+        }
     }
 }
