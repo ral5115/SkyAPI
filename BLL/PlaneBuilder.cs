@@ -17,21 +17,19 @@ namespace WebAPI.BLL
 
             try
             {
-                plane = new StringBuilder();
+                plane = new StringBuilder("000000100000001");
                 DataRow[] structureDetail = structure.Tables[1].Select("desc_seccion = 'Inicial'");
-                plane.Append((1).ToString().PadLeft(7, '0'));
-                for (int i = 0; i < structureDetail.Length; i++)
+                
+                 if (structureDetail[structureDetail.Length-1]["Fuente"].ToString() == "")
                 {
-                 if (structureDetail[i]["Fuente"].ToString() == "")
-                {
-                    plane.Append(structureDetail[i]["ValorFijo"].ToString());
+                    plane.Append(structureDetail[structureDetail.Length - 1]["ValorFijo"].ToString());
                 }
                 else
                 {
-                    plane.Append(((string)json[structureDetail[i]["Fuente"].ToString()]).PadLeft(3, '0'));
+                    plane.Append(((string)json[structureDetail[structureDetail.Length - 1]["Fuente"].ToString()]).PadLeft(3, '0'));
 
                 }
-                }
+                
             }
             catch (Exception)
             {
@@ -151,8 +149,8 @@ namespace WebAPI.BLL
                 plane = new StringBuilder();
                 DataRow[] structureDetail = structure.Tables[1].Select("desc_seccion = 'Final'");
                 plane.AppendLine();
-                    consectLine++;
-                    plane.Append((consectLine).ToString().PadLeft(7, '0'));
+                consectLine++;
+                plane.Append((consectLine).ToString().PadLeft(7, '0'));
 
                 for (int i = 0; i < structureDetail.Length; i++)
                 {

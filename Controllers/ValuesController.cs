@@ -31,22 +31,21 @@ namespace WebAPI.Controllers
             SQLTransaction ejecutar = new SQLTransaction();
             structure = ejecutar.GetStruct();
             planeBuild = new PlaneBuilder();
+            
 
             if (value != null)
             {
+                plane.Append(planeBuild.BuildInitial(structure, value[0]));//construye linea inicial
                 for (int j = 0; j < value.Count; j++)
                 {
                   try
                     {
                     string ConectorType = (string)value[j]["Conector"];
                     JObject json = value[j];
-
-                    plane.Append(planeBuild.BuildInitial(structure, json));
-                    plane.Append( planeBuild.BuildMasters(structure, json, ref consectLine));
-                    plane.Append(planeBuild.BuildDetails(structure, json, ref consectLine));
-                    plane.Append(planeBuild.BuildFinal(structure, json, ref consectLine));
-                    var p = plane.ToString();
-                    }
+                    
+                    plane.Append( planeBuild.BuildMasters(structure, json, ref consectLine));//construye encabezados o maestros
+                    plane.Append(planeBuild.BuildDetails(structure, json, ref consectLine));//construye movimientos
+                   }
                     catch (Exception e)
                     {
                         throw;
@@ -54,12 +53,14 @@ namespace WebAPI.Controllers
 
 
                 }
+                plane.Append(planeBuild.BuildFinal(structure, value[0], ref consectLine));//construye linea final
+                string Plano = plane.ToString();
             }
 
 
         }
 
-       
+        //wsSiesaERP.WSUNOEESoapClient ws = new wsSiesaERP.WSUNOEESoapChannel;
         
     }
 }
