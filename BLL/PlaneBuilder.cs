@@ -17,7 +17,7 @@ namespace WebAPI.BLL
 
             try
             {
-                plane = new StringBuilder("000000100000001");
+                plane = new StringBuilder("<Linea>000000100000001");
                 DataRow[] structureDetail = structure.Tables[1].Select("desc_seccion = 'Inicial'");
                 
                  if (structureDetail[structureDetail.Length-1]["Fuente"].ToString() == "")
@@ -36,7 +36,7 @@ namespace WebAPI.BLL
 
                 throw;
             }
-
+            plane.Append("</Linea>");
             return plane.ToString();
         }
 
@@ -51,7 +51,7 @@ namespace WebAPI.BLL
                 {
                     plane.AppendLine();
                     consectLine++;
-                    plane.Append((consectLine).ToString().PadLeft(7, '0'));
+                    plane.Append("<Linea>"+(consectLine).ToString().PadLeft(7, '0'));
                     
                 }
                 //valida que sea fijo o variable
@@ -75,7 +75,8 @@ namespace WebAPI.BLL
 
                 }
             }
-            var a = plane.ToString();
+            //var a = plane.ToString();
+            plane.Append("</Linea>");
             return plane.ToString();
         }
 
@@ -88,48 +89,49 @@ namespace WebAPI.BLL
             {
                 plane = new StringBuilder();
                 int sections = structure.Tables[3].Rows.Count;
-            for (int id = 0; id < sections; id++)
-            {
-                DataRow[] structureDetail = structure.Tables[2].Select("desc_seccion = '" + structure.Tables[3].Rows[id]["desc_seccion"].ToString()+"'");
-                int details = json[structureDetail[0]["desc_seccion"].ToString()].Count();
-                for (int t = 0; t < details; t++)
+                for (int id = 0; id < sections; id++)
                 {
-                    for (int i = 0; i < structureDetail.Length; i++)
+                    DataRow[] structureDetail = structure.Tables[2].Select("desc_seccion = '" + structure.Tables[3].Rows[id]["desc_seccion"].ToString() + "'");
+                    int details = json[structureDetail[0]["desc_seccion"].ToString()].Count();
+                    for (int t = 0; t < details; t++)
                     {
-                            
-                        if (structureDetail[i]["Orden"].ToString() == "1")
-                        {
-                            plane.AppendLine();
-                                consectLine++;
-                                plane.Append((consectLine).ToString().PadLeft(7, '0'));
-                            
-                            
-                        }
 
-                        if (structureDetail[i]["Fuente"].ToString() == "")
+                        for (int i = 0; i < structureDetail.Length; i++)
                         {
-                            plane.Append(structureDetail[i]["ValorFijo"].ToString());
-                        }
-                        else
-                        {
-                            int length = (int)(structureDetail[i]["Tamano"]);
 
-                            if (structureDetail[i]["Tipo"].ToString() == "Alfanumerico")
+                            if (structureDetail[i]["Orden"].ToString() == "1")
                             {
-                                plane.Append(((string)json[structureDetail[i]["desc_seccion"].ToString()] [t] [structureDetail[i]["Fuente"].ToString()] ).PadRight(length, ' '));
+                                plane.AppendLine();
+                                consectLine++;
+                                plane.Append("<Linea>" + (consectLine).ToString().PadLeft(7, '0'));
+
+
+                            }
+
+                            if (structureDetail[i]["Fuente"].ToString() == "")
+                            {
+                                plane.Append(structureDetail[i]["ValorFijo"].ToString());
                             }
                             else
                             {
-                                plane.Append(((string)json[structureDetail[i]["desc_seccion"].ToString()][t][structureDetail[i]["Fuente"].ToString()]).PadLeft(length, '0'));
-                            }
+                                int length = (int)(structureDetail[i]["Tamano"]);
 
+                                if (structureDetail[i]["Tipo"].ToString() == "Alfanumerico")
+                                {
+                                    plane.Append(((string)json[structureDetail[i]["desc_seccion"].ToString()][t][structureDetail[i]["Fuente"].ToString()]).PadRight(length, ' '));
+                                }
+                                else
+                                {
+                                    plane.Append(((string)json[structureDetail[i]["desc_seccion"].ToString()][t][structureDetail[i]["Fuente"].ToString()]).PadLeft(length, '0'));
+                                }
+
+                            }
+                            //var resultado = plane.ToString();
                         }
-                        var resultado = plane.ToString();
+                        plane.Append("</Linea>");
                     }
-                    
+
                 }
-                
-            }
             }
             catch (Exception)
             {
@@ -150,7 +152,7 @@ namespace WebAPI.BLL
                 DataRow[] structureDetail = structure.Tables[1].Select("desc_seccion = 'Final'");
                 plane.AppendLine();
                 consectLine++;
-                plane.Append((consectLine).ToString().PadLeft(7, '0'));
+                plane.Append("<Linea>"+(consectLine).ToString().PadLeft(7, '0'));
 
                 for (int i = 0; i < structureDetail.Length; i++)
                 {
@@ -164,7 +166,8 @@ namespace WebAPI.BLL
 
                     }
                 }
-                
+                plane.Append("</Linea>");
+
             }
             catch (Exception)
             {
@@ -178,11 +181,29 @@ namespace WebAPI.BLL
 
         public void SendInformationWS(string xml)
         {
-            ws.WSUNOEESoap wsSIESA = new ws.WSUNOEESoapClient(ws.WSUNOEESoapClient.EndpointConfiguration.WSUNOEESoap);
-            ws.ImportarXMLRequest request = new ws.ImportarXMLRequest();
+            string xmlSend;
+
+            //wsSIESA.WSUNOEESoap wSUNOEESoap = new wsSIESA.WSUNOEESoap();
+
+            wsSIESA.WSUNOEESoap ws = new wsSIESA.WSUNOEESoapClient(wsSIESA.WSUNOEESoapClient.EndpointConfiguration.WSUNOEESoap12);
+            wsSIESA.ImportarXMLRequest request = new wsSIESA.ImportarXMLRequest();
+            
+
+            xmlSend = "<Importar>";
+            xmlSend += "<NombreConexion>Prueba_2</NombreConexion>";
+            xmlSend += "<IdCia>1</IdCia>";
+            xmlSend += "<Usuario>unoee</Usuario>";
+            xmlSend += "<Clave>unoee</Clave>";
+            xmlSend += "<Datos>";
+            xmlSend += xml;
+            xmlSend += "</Datos>";
+            xmlSend += "</Importar>";
+
             request.printTipoError = 0;
-            request.pvstrDatos = xml;
-            var result = wsSIESA.ImportarXMLAsync(request);
+            request.pvstrDatos = xmlSend;
+            var result = ws.
+
+
     }
         public void GenerateXMLStruct(string plane)
         {

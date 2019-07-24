@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
                 }
                 plane.Append(planeBuild.BuildFinal(structure, value[0], ref consectLine));//construye linea final
                 string Plano = plane.ToString();
-
+                planeBuild.SendInformationWS(Plano);
 
             }
 
