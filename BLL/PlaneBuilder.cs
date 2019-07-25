@@ -44,22 +44,15 @@ namespace WebAPI.BLL
         {
             plane = new StringBuilder();
             DataRow[] structureDetail = structure.Tables[1].Select("desc_seccion = '" + json["Conector"].ToString() + "'");
+            plane.AppendLine();
+            consectLine++;
+            plane.Append("<Linea>" + (consectLine).ToString().PadLeft(7, '0'));
 
-            for (int i = 0; i < structureDetail.Length; i++)
+            for (int i = 1; i < structureDetail.Length; i++)
             {
 
-                if (i==25)
-                {
-                    var t = structureDetail[i]["ValorFijo"].ToString();
-                }
-
-                if (structureDetail[i]["Orden"].ToString() == "1")
-                {
-                    plane.AppendLine();
-                    consectLine++;
-                    plane.Append("<Linea>"+(consectLine).ToString().PadLeft(7, '0'));
-                    
-                }
+               
+                
                 //valida que sea fijo o variable
                 if (structureDetail[i]["Fuente"].ToString() == "")
                 {
@@ -113,22 +106,27 @@ namespace WebAPI.BLL
                     int details = json[structureDetail[0]["desc_seccion"].ToString()].Count();
                     for (int t = 0; t < details; t++)
                     {
+                        plane.AppendLine();
+                        consectLine++;
+                        plane.Append("<Linea>" + (consectLine).ToString().PadLeft(7, '0'));
 
-                        for (int i = 0; i < structureDetail.Length; i++)
+                        for (int i = 1; i < structureDetail.Length; i++)
                         {
 
-                            if (structureDetail[i]["Orden"].ToString() == "1")
-                            {
-                                plane.AppendLine();
-                                consectLine++;
-                                plane.Append("<Linea>" + (consectLine).ToString().PadLeft(7, '0'));
-
-
-                            }
-
+                           
                             if (structureDetail[i]["Fuente"].ToString() == "")
                             {
-                                plane.Append(structureDetail[i]["ValorFijo"].ToString());
+                                int length = (int)(structureDetail[i]["Tamano"]);
+
+                                if (structureDetail[i]["Tipo"].ToString() == "Alfanumerico")//valida que sea numerico o alfanumerico
+                                {
+                                    plane.Append(structureDetail[i]["ValorFijo"].ToString().PadRight(length, ' '));
+                                }
+                                else
+                                {
+
+                                    plane.Append(structureDetail[i]["ValorFijo"].ToString().PadLeft(length, '0'));
+                                }
                             }
                             else
                             {
@@ -144,7 +142,7 @@ namespace WebAPI.BLL
                                 }
 
                             }
-                            //var resultado = plane.ToString();
+                            var resultado = plane.ToString();
                         }
                         plane.Append("</Linea>");
                     }

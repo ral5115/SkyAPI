@@ -46,7 +46,7 @@ namespace WebAPI.Controllers
                     
                     plane.Append( planeBuild.BuildMasters(structure, json, ref consectLine));//construye encabezados o maestros
                         string Pano = plane.ToString();
-                        plane.Append(planeBuild.BuildDetails(structure, json, ref consectLine));//construye movimientos
+                    plane.Append(planeBuild.BuildDetails(structure, json, ref consectLine));//construye movimientos
                    }
                     catch (Exception e)
                     {
