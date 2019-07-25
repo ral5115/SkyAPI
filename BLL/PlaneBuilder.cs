@@ -47,6 +47,12 @@ namespace WebAPI.BLL
 
             for (int i = 0; i < structureDetail.Length; i++)
             {
+
+                if (i==25)
+                {
+                    var t = structureDetail[i]["ValorFijo"].ToString();
+                }
+
                 if (structureDetail[i]["Orden"].ToString() == "1")
                 {
                     plane.AppendLine();
@@ -57,7 +63,18 @@ namespace WebAPI.BLL
                 //valida que sea fijo o variable
                 if (structureDetail[i]["Fuente"].ToString() == "")
                 {
-                    plane.Append(structureDetail[i]["ValorFijo"].ToString());
+                    int length = (int)(structureDetail[i]["Tamano"]);
+
+                    if (structureDetail[i]["Tipo"].ToString() == "Alfanumerico")//valida que sea numerico o alfanumerico
+                    {
+                        plane.Append(structureDetail[i]["ValorFijo"].ToString().PadRight(length, ' '));
+                    }
+                    else
+                    {
+
+                        plane.Append(structureDetail[i]["ValorFijo"].ToString().PadLeft(length, '0'));
+                    }
+
                 }
                 else
                 {
@@ -74,8 +91,9 @@ namespace WebAPI.BLL
                     }
 
                 }
+                var a = plane.ToString();
             }
-            //var a = plane.ToString();
+            
             plane.Append("</Linea>");
             return plane.ToString();
         }
@@ -181,27 +199,33 @@ namespace WebAPI.BLL
 
         public void SendInformationWS(string xml)
         {
-            string xmlSend;
+            try
+            {
+                string xmlSend;
+                wsSIESA.WSUNOEESoap ws = new wsSIESA.WSUNOEESoapClient(wsSIESA.WSUNOEESoapClient.EndpointConfiguration.WSUNOEESoap);
+                wsSIESA.ImportarXMLRequest request = new wsSIESA.ImportarXMLRequest();
 
-            //wsSIESA.WSUNOEESoap wSUNOEESoap = new wsSIESA.WSUNOEESoap();
 
-            wsSIESA.WSUNOEESoap ws = new wsSIESA.WSUNOEESoapClient(wsSIESA.WSUNOEESoapClient.EndpointConfiguration.WSUNOEESoap12);
-            wsSIESA.ImportarXMLRequest request = new wsSIESA.ImportarXMLRequest();
+                xmlSend = "<Importar>";
+                xmlSend += "<NombreConexion>Pruebas_2</NombreConexion>";
+                xmlSend += "<IdCia>1</IdCia>";
+                xmlSend += "<Usuario>unoee</Usuario>";
+                xmlSend += "<Clave>unoee</Clave>";
+                xmlSend += "<Datos>";
+                xmlSend += xml;
+                xmlSend += "</Datos>";
+                xmlSend += "</Importar>";
+
+                request.printTipoError = 0;
+                request.pvstrDatos = xmlSend;
+                var result = ws.ImportarXMLAsync(request).Result;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
             
-
-            xmlSend = "<Importar>";
-            xmlSend += "<NombreConexion>Prueba_2</NombreConexion>";
-            xmlSend += "<IdCia>1</IdCia>";
-            xmlSend += "<Usuario>unoee</Usuario>";
-            xmlSend += "<Clave>unoee</Clave>";
-            xmlSend += "<Datos>";
-            xmlSend += xml;
-            xmlSend += "</Datos>";
-            xmlSend += "</Importar>";
-
-            request.printTipoError = 0;
-            request.pvstrDatos = xmlSend;
-            var result = ws.
 
 
     }

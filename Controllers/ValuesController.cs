@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,7 +45,8 @@ namespace WebAPI.Controllers
                     JObject json = value[j];
                     
                     plane.Append( planeBuild.BuildMasters(structure, json, ref consectLine));//construye encabezados o maestros
-                    plane.Append(planeBuild.BuildDetails(structure, json, ref consectLine));//construye movimientos
+                        string Pano = plane.ToString();
+                        plane.Append(planeBuild.BuildDetails(structure, json, ref consectLine));//construye movimientos
                    }
                     catch (Exception e)
                     {
@@ -55,6 +57,10 @@ namespace WebAPI.Controllers
                 }
                 plane.Append(planeBuild.BuildFinal(structure, value[0], ref consectLine));//construye linea final
                 string Plano = plane.ToString();
+                String PlanoSinEtiquetas = Plano.Replace("<Linea>", "").Replace("</Linea>","");
+                var SavePlane = new StreamWriter(@"C:\Users\Reynel\Desktop\Debug\Nueva carpeta\Codigo Fuente\Pedido.txt");
+                SavePlane.WriteLine(PlanoSinEtiquetas);
+                SavePlane.Close();
                 planeBuild.SendInformationWS(Plano);
 
             }
