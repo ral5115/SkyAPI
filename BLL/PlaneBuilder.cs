@@ -1,26 +1,25 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace WebAPI.BLL
 {
+    using Newtonsoft.Json.Linq;
+    using System;
+    using System.Data;
+    using System.Linq;
+    using System.Text;
     public class PlaneBuilder
     {
         StringBuilder plane;
 
-        public string BuildInitial( DataSet structure, JObject json)
+        public string BuildInitial(DataSet structure, JObject json)
         {
 
             try
             {
                 plane = new StringBuilder("<Linea>000000100000001");
                 DataRow[] structureDetail = structure.Tables[1].Select("desc_seccion = 'Inicial'");
-                
-                 if (structureDetail[structureDetail.Length-1]["Fuente"].ToString() == "")
+
+                if (structureDetail[structureDetail.Length - 1]["Fuente"].ToString() == "")
                 {
                     plane.Append(structureDetail[structureDetail.Length - 1]["ValorFijo"].ToString());
                 }
@@ -29,7 +28,7 @@ namespace WebAPI.BLL
                     plane.Append(((string)json[structureDetail[structureDetail.Length - 1]["Fuente"].ToString()]).PadLeft(3, '0'));
 
                 }
-                
+
             }
             catch (Exception)
             {
@@ -40,7 +39,7 @@ namespace WebAPI.BLL
             return plane.ToString();
         }
 
-        public string BuildMasters( DataSet structure, JObject json, ref int consectLine)
+        public string BuildMasters(DataSet structure, JObject json, ref int consectLine)
         {
             plane = new StringBuilder();
             DataRow[] structureDetail = structure.Tables[1].Select("desc_seccion = '" + json["Conector"].ToString() + "'");
@@ -51,8 +50,8 @@ namespace WebAPI.BLL
             for (int i = 1; i < structureDetail.Length; i++)
             {
 
-               
-                
+
+
                 //valida que sea fijo o variable
                 if (structureDetail[i]["Fuente"].ToString() == "")
                 {
@@ -86,16 +85,14 @@ namespace WebAPI.BLL
                 }
                 var a = plane.ToString();
             }
-            
+
             plane.Append("</Linea>");
             return plane.ToString();
         }
 
-
-
-        public string BuildDetails( DataSet structure, JObject json, ref int consectLine)
+        public string BuildDetails(DataSet structure, JObject json, ref int consectLine)
         {
-            
+
             try
             {
                 plane = new StringBuilder();
@@ -113,7 +110,7 @@ namespace WebAPI.BLL
                         for (int i = 1; i < structureDetail.Length; i++)
                         {
 
-                           
+
                             if (structureDetail[i]["Fuente"].ToString() == "")
                             {
                                 int length = (int)(structureDetail[i]["Tamano"]);
@@ -158,7 +155,6 @@ namespace WebAPI.BLL
             return plane.ToString();
         }
 
-
         public string BuildFinal(DataSet structure, JObject json, ref int consectLine)
         {
 
@@ -168,7 +164,7 @@ namespace WebAPI.BLL
                 DataRow[] structureDetail = structure.Tables[1].Select("desc_seccion = 'Final'");
                 plane.AppendLine();
                 consectLine++;
-                plane.Append("<Linea>"+(consectLine).ToString().PadLeft(7, '0'));
+                plane.Append("<Linea>" + (consectLine).ToString().PadLeft(7, '0'));
 
                 for (int i = 0; i < structureDetail.Length; i++)
                 {
@@ -193,7 +189,6 @@ namespace WebAPI.BLL
 
             return plane.ToString();
         }
-
 
         public void SendInformationWS(string xml)
         {
@@ -223,13 +218,10 @@ namespace WebAPI.BLL
 
                 throw ex;
             }
-            
 
 
-    }
-        public void GenerateXMLStruct(string plane)
-        {
-            
+
         }
+
     }
 }

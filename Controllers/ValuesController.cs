@@ -18,6 +18,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        ExecuteQuery query;
         PlaneBuilder planeBuild;
         StringBuilder plane = new StringBuilder();
         int consectLine = 1;
@@ -68,8 +69,16 @@ namespace WebAPI.Controllers
 
         }
 
-        
-        
+        [Route("Query")]
+        [HttpPost]
+        public IActionResult Post([FromBody] QueryWSSiesa value)
+        {
+            query = new ExecuteQuery();   
+            query
+            return Ok();
+        }
+
+
 
     }
 }
