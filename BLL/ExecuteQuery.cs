@@ -27,8 +27,7 @@ namespace WebAPI.BLL
             xml += "</Consulta>";
 
            wsSIESA.WSUNOEESoap ws = new wsSIESA.WSUNOEESoapClient(wsSIESA.WSUNOEESoapClient.EndpointConfiguration.WSUNOEESoap);
-           var Data = ws.EjecutarConsultaXMLAsync(xml).Result;
-
+           var da = ws.EjecutarConsultaXMLAsync(xml).Result;
             return data;
         }
     }
