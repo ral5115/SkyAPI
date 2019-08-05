@@ -19,14 +19,15 @@ namespace WebAPI.BLL
             xml += $"<Clave>{query.Pass}</Clave>";
             xml += "<Parametros>";
             for (int i = 0; i < query.Filters.Count; i++)
-            {                
-                xml += $"<IdCia>{}</IdCia>";
+            {
+                string[] filters = query.Filters[i].Split(":");
+                xml += $"<{filters[0]}>{filters[1]}</{filters[0]}>";
             }
             xml += "</Parametros>";
             xml += "</Consulta>";
 
            wsSIESA.WSUNOEESoap ws = new wsSIESA.WSUNOEESoapClient(wsSIESA.WSUNOEESoapClient.EndpointConfiguration.WSUNOEESoap);
-            //var a = ws.EjecutarConsultaXMLAsync().Result;
+           var Data = ws.EjecutarConsultaXMLAsync(xml).Result;
 
             return data;
         }
