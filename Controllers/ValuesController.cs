@@ -73,9 +73,8 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] QueryWSSiesa value)
         {
-            query = new ExecuteQuery();
-            query.SendQueryWS(value);
-            return Ok();
+            query = new ExecuteQuery();            
+            return Ok(query.SendQueryWS(value));
         }
 
 

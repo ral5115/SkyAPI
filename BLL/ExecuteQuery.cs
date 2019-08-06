@@ -3,11 +3,12 @@
 namespace WebAPI.BLL
 {
     using System.Data;
+    using System.Xml.Linq;
     using WebAPI.Models;
    
     public class ExecuteQuery
     {
-        public DataSet SendQueryWS(QueryWSSiesa query)
+        public XElement SendQueryWS(QueryWSSiesa query)
         {
             DataSet data = new DataSet();
             string xml = "<Consulta>";
@@ -27,8 +28,9 @@ namespace WebAPI.BLL
             xml += "</Consulta>";
 
            wsSIESA.WSUNOEESoap ws = new wsSIESA.WSUNOEESoapClient(wsSIESA.WSUNOEESoapClient.EndpointConfiguration.WSUNOEESoap);
-           var da = ws.EjecutarConsultaXMLAsync(xml).Result;
-            return data;
+           var result = ws.EjecutarConsultaXMLAsync(xml).Result;
+           return result.Nodes[1];
+
         }
     }
 }
