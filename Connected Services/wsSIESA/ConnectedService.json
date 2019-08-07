@@ -6,7 +6,7 @@
   },
   "ExtendedData": {
     "inputs": [
-      "http://siesa.generictransfer.com:8088/WSUNOEE.asmx"
+      "http://191.88.120.186:8080/WSUNOEE/WSUNOEE.asmx"
     ],
     "collectionTypes": [
       "System.Array",
