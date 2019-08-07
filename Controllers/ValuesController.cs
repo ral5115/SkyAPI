@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
                    }
                     catch (Exception e)
                     {
-                        throw;
+                        throw e;
                     }
 
 
@@ -75,6 +75,12 @@ namespace WebAPI.Controllers
         {
             query = new ExecuteQuery();            
             return Ok(query.SendQueryWS(value));
+        }
+
+        [HttpGet]
+        public string Get()
+        {
+            return "Servicio SKYApi Ejecutandose...";
         }
 
 
