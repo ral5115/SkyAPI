@@ -38,12 +38,12 @@ namespace WebAPI.Controllers
             if (value != null)
             {
                 plane.Append(planeBuild.BuildInitial(structure, value[0]));//construye linea inicial
-                for (int j = 0; j < value.Count; j++)
+                for (int j = 0; j < value.Count; j++)//recorre la lista de registros a enviar
                 {
                   try
                     {
-                    string ConectorType = (string)value[j]["Conector"];
-                    JObject json = value[j];
+                    string ConectorType = (string)value[j]["Conector"];//extrae el nombre del conector
+                    JObject json = value[j];//extrae json del conector a enviar
                     
                     plane.Append( planeBuild.BuildMasters(structure, json, ref consectLine));//construye encabezados o maestros
                         string Pano = plane.ToString();
