@@ -256,7 +256,7 @@ namespace WebAPI.BLL
 
 
                 xmlSend = "<Importar>";
-                xmlSend += "<NombreConexion>Pruebas_2</NombreConexion>";
+                xmlSend += "<NombreConexion>pruebas</NombreConexion>";
                 xmlSend += "<IdCia>1</IdCia>";
                 xmlSend += "<Usuario>unoee</Usuario>";
                 xmlSend += "<Clave>unoee</Clave>";
