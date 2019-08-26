@@ -7,6 +7,8 @@ namespace WebAPI.BLL
     using System.Data;
     using System.Linq;
     using System.Text;
+    using System.Xml.Linq;
+
     public class PlaneBuilder
     {
         StringBuilder plane;
@@ -246,7 +248,7 @@ namespace WebAPI.BLL
             return plane.ToString();
         }
 
-        public void SendInformationWS(string xml)
+        public string SendInformationWS(string xml)
         {
             try
             {
@@ -268,11 +270,13 @@ namespace WebAPI.BLL
                 request.printTipoError = 0;
                 request.pvstrDatos = xmlSend;
                 var result = ws.ImportarXMLAsync(request).Result;
+                return result.ImportarXMLResult.Nodes[1].ToString();
+
             }
             catch (Exception ex)
             {
 
-                throw ex;
+                return ex.Message;
             }
 
 

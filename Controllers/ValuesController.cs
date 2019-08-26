@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -25,47 +26,53 @@ namespace WebAPI.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] List<JObject> value)
+        public string Post([FromBody] List<JObject> value)
         {
-            
-            //llama la estructura del conector
-            DataSet structure = new DataSet();
-            SQLTransaction ejecutar = new SQLTransaction();
-            structure = ejecutar.GetStruct();
-            planeBuild = new PlaneBuilder();
-            
+            string result ;
 
-            if (value != null)
+            try
             {
-                plane.Append(planeBuild.BuildInitial(structure, value[0]));//construye linea inicial
-                for (int j = 0; j < value.Count; j++)//recorre la lista de registros a enviar
+                //llama la estructura del conector
+
+                DataSet structure = new DataSet();
+                SQLTransaction ejecutar = new SQLTransaction();
+                structure = ejecutar.GetStruct();
+                planeBuild = new PlaneBuilder();
+
+
+                if (value != null)
                 {
-                  try
+                    plane.Append(planeBuild.BuildInitial(structure, value[0]));//construye linea inicial
+                    for (int j = 0; j < value.Count; j++)//recorre la lista de registros a enviar
                     {
-                    string ConectorType = (string)value[j]["Conector"];//extrae el nombre del conector
-                    JObject json = value[j];//extrae json del conector a enviar
-                    
-                    plane.Append( planeBuild.BuildMasters(structure, json, ref consectLine));//construye encabezados o maestros
+
+                        string ConectorType = (string)value[j]["Conector"];//extrae el nombre del conector
+                        JObject json = value[j];//extrae json del conector a enviar
+
+                        plane.Append(planeBuild.BuildMasters(structure, json, ref consectLine));//construye encabezados o maestros
                         string Pano = plane.ToString();
-                    plane.Append(planeBuild.BuildDetails(structure, json, ref consectLine));//construye movimientos
-                   }
-                    catch (Exception e)
-                    {
-                        throw e;
+                        plane.Append(planeBuild.BuildDetails(structure, json, ref consectLine));//construye movimientos
+
+
                     }
-
-
+                    plane.Append(planeBuild.BuildFinal(structure, value[0], ref consectLine));//construye linea final
+                    string Plano = plane.ToString();
+                    String PlanoSinEtiquetas = Plano.Replace("<Linea>", "").Replace("</Linea>", "");
+                    var SavePlane = new StreamWriter($@"C:\inetpub\wwwroot\SKYApi\planos\Pedido{DateTime.Now.ToString("ddMMyyyy")}.txt");
+                    SavePlane.WriteLine(PlanoSinEtiquetas);
+                    SavePlane.Close();
+                    result = planeBuild.SendInformationWS(Plano);
+                    return result;
                 }
-                plane.Append(planeBuild.BuildFinal(structure, value[0], ref consectLine));//construye linea final
-                string Plano = plane.ToString();
-                String PlanoSinEtiquetas = Plano.Replace("<Linea>", "").Replace("</Linea>","");
-                var SavePlane = new StreamWriter(@"C:\Users\Reynel\Desktop\Debug\Nueva carpeta\Codigo Fuente\Pedido.txt");
-                SavePlane.WriteLine(PlanoSinEtiquetas);
-                SavePlane.Close();
-                planeBuild.SendInformationWS(Plano);
+                return "No se envio ningun Body..";
 
             }
+            catch (Exception e)
+            {
 
+                return e.Message;
+            }
+            
 
         }
 
