@@ -58,9 +58,9 @@ namespace WebAPI.Controllers
                     plane.Append(planeBuild.BuildFinal(structure, value[0], ref consectLine));//construye linea final
                     string Plano = plane.ToString();
                     String PlanoSinEtiquetas = Plano.Replace("<Linea>", "").Replace("</Linea>", "");
-                    var SavePlane = new StreamWriter($@"C:\inetpub\wwwroot\SKYApi\planos\Pedido{DateTime.Now.ToString("ddMMyyyy")}.txt");
-                    SavePlane.WriteLine(PlanoSinEtiquetas);
-                    SavePlane.Close();
+                    //var SavePlane = new StreamWriter($@"C:\inetpub\wwwroot\SKYApi\planos\Pedido{DateTime.Now.ToString("ddMMyyyy")}.txt");
+                    //SavePlane.WriteLine(PlanoSinEtiquetas);
+                    //SavePlane.Close();
                     result = planeBuild.SendInformationWS(Plano);
                     return result;
                 }

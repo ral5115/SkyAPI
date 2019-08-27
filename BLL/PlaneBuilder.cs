@@ -270,7 +270,15 @@ namespace WebAPI.BLL
                 request.printTipoError = 0;
                 request.pvstrDatos = xmlSend;
                 var result = ws.ImportarXMLAsync(request).Result;
-                return result.ImportarXMLResult.Nodes[1].ToString();
+                if (result.printTipoError == 0)
+                {
+                    return "Importacion Exitosa";
+                }
+                else
+                {
+                    return result.ImportarXMLResult.Nodes[1].ToString();
+                }
+                
 
             }
             catch (Exception ex)
