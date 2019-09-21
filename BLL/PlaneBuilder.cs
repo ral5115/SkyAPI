@@ -44,75 +44,85 @@ namespace WebAPI.BLL
 
         public string BuildMasters(DataSet structure, JObject json, ref int consectLine)
         {
-            plane = new StringBuilder();
-            DataRow[] structureDetail = structure.Tables[1].Select("desc_seccion = '" + json["Conector"].ToString() + "'");//extrae estructura del encabezado o maestro
-            plane.AppendLine();
-            consectLine++;
-            plane.Append("<Linea>" + (consectLine).ToString().PadLeft(7, '0'));//genera consecutivo de linea
-
-            for (int i = 1; i < structureDetail.Length; i++)//recorre la estructura armando la linea
+            try
             {
-                //valida que sea fijo o variable
-                if (structureDetail[i]["Fuente"].ToString() == "")
-                {
-                    int length = (int)(structureDetail[i]["Tamano"]);
-                    
 
-                    //valida que sea numerico o alfanumerico
-                    if (structureDetail[i]["Tipo"].ToString() == "Alfanumerico")
+
+                plane = new StringBuilder();
+                DataRow[] structureDetail = structure.Tables[1].Select("desc_seccion = '" + json["Conector"].ToString() + "'");//extrae estructura del encabezado o maestro
+                plane.AppendLine();
+                consectLine++;
+                plane.Append("<Linea>" + (consectLine).ToString().PadLeft(7, '0'));//genera consecutivo de linea
+
+                for (int i = 1; i < structureDetail.Length; i++)//recorre la estructura armando la linea
+                {
+                    //valida que sea fijo o variable
+                    if (structureDetail[i]["Fuente"].ToString() == "")
                     {
-                        plane.Append(structureDetail[i]["ValorFijo"].ToString().PadRight(length, ' '));
-                    }
-                    else
-                    {
-                        if (structureDetail[i]["Tipo"].ToString() == "Decimal")
+                        int length = (int)(structureDetail[i]["Tamano"]);
+
+
+                        //valida que sea numerico o alfanumerico
+                        if (structureDetail[i]["Tipo"].ToString() == "Alfanumerico")
                         {
-                            int ent = int.Parse((structureDetail[i]["Enteros"]).ToString());                            
-                            int dec = int.Parse((structureDetail[i]["Decimales"]).ToString());
-                            string[] decimalVal = structureDetail[i]["ValorFijo"].ToString().Split(".");
-                            if (decimalVal.Count() > 1)
-                                plane.Append($"{decimalVal[0].ToString().PadLeft(ent, '0')}.{decimalVal[1].ToString().PadRight(dec, '0')}");
-                            else
-                                plane.Append($"{decimalVal[0].ToString().PadLeft(ent, '0')}.{("0").PadRight(dec, '0')}");
+                            plane.Append(structureDetail[i]["ValorFijo"].ToString().PadRight(length, ' '));
                         }
                         else
                         {
-                            plane.Append(structureDetail[i]["ValorFijo"].ToString().PadLeft(length, '0'));
-                        }
-                        
-                    }
+                            if (structureDetail[i]["Tipo"].ToString() == "Decimal")
+                            {
+                                int ent = int.Parse((structureDetail[i]["Enteros"]).ToString());
+                                int dec = int.Parse((structureDetail[i]["Decimales"]).ToString());
+                                string[] decimalVal = structureDetail[i]["ValorFijo"].ToString().Split(".");
+                                if (decimalVal.Count() > 1)
+                                    plane.Append($"{decimalVal[0].ToString().PadLeft(ent, '0')}.{decimalVal[1].ToString().PadRight(dec, '0')}");
+                                else
+                                    plane.Append($"{decimalVal[0].ToString().PadLeft(ent, '0')}.{("0").PadRight(dec, '0')}");
+                            }
+                            else
+                            {
+                                plane.Append(structureDetail[i]["ValorFijo"].ToString().PadLeft(length, '0'));
+                            }
 
-                }
-                else
-                {
-                    int length = (int)(structureDetail[i]["Tamano"]);//extrae tamaño del campo
-                    //valida que sea numerico o alfanumerico
-                    if (structureDetail[i]["Tipo"].ToString() == "Alfanumerico")
-                    {
-                        plane.Append(((string)json[structureDetail[i]["Fuente"].ToString()]).PadRight(length, ' '));
+                        }
+
                     }
                     else
                     {
-                        if (structureDetail[i]["Tipo"].ToString() == "Decimal")
+                        int length = (int)(structureDetail[i]["Tamano"]);//extrae tamaño del campo
+                                                                         //valida que sea numerico o alfanumerico
+                        if (structureDetail[i]["Tipo"].ToString() == "Alfanumerico")
                         {
-                            int ent = int.Parse((structureDetail[i]["Enteros"]).ToString());
-                            int dec = int.Parse((structureDetail[i]["Decimales"]).ToString());
-                            string[] decimalVal = json[structureDetail[i]["Fuente"].ToString()].ToString().Split(".");
-                            if (decimalVal.Count() > 1)
-                                plane.Append($"{decimalVal[0].ToString().PadLeft(ent, '0')}.{decimalVal[1].ToString().PadRight(dec, '0')}");
-                            else
-                                plane.Append($"{decimalVal[0].ToString().PadLeft(ent, '0')}.{("0").PadRight(dec, '0')}");
+                            var t = structureDetail[i]["Fuente"].ToString();
+                            plane.Append(((string)json[structureDetail[i]["Fuente"].ToString()]).PadRight(length, ' '));
                         }
                         else
                         {
-                            plane.Append(((string)json[structureDetail[i]["Fuente"].ToString()]).PadLeft(length, '0'));
+                            if (structureDetail[i]["Tipo"].ToString() == "Decimal")
+                            {
+                                int ent = int.Parse((structureDetail[i]["Enteros"]).ToString());
+                                int dec = int.Parse((structureDetail[i]["Decimales"]).ToString());
+                                string[] decimalVal = json[structureDetail[i]["Fuente"].ToString()].ToString().Split(".");
+                                if (decimalVal.Count() > 1)
+                                    plane.Append($"{decimalVal[0].ToString().PadLeft(ent, '0')}.{decimalVal[1].ToString().PadRight(dec, '0')}");
+                                else
+                                    plane.Append($"{decimalVal[0].ToString().PadLeft(ent, '0')}.{("0").PadRight(dec, '0')}");
+                            }
+                            else
+                            {
+                                plane.Append(((string)json[structureDetail[i]["Fuente"].ToString()]).PadLeft(length, '0'));
+                            }
                         }
-                    }
 
+                    }
+                    var a = plane.ToString();
                 }
-                var a = plane.ToString();
+
             }
-
+            catch (Exception e)
+            {
+                throw e;
+            }
             plane.Append("</Linea>");
             return plane.ToString();
         }
@@ -265,10 +275,10 @@ namespace WebAPI.BLL
 
 
                 xmlSend = "<Importar>";
-                xmlSend += "<NombreConexion>pruebas</NombreConexion>";
+                xmlSend += "<NombreConexion>UnoEE_PbAnamaria_Pruebas</NombreConexion>";
                 xmlSend += "<IdCia>1</IdCia>";
-                xmlSend += "<Usuario>unoee</Usuario>";
-                xmlSend += "<Clave>unoee</Clave>";
+                xmlSend += "<Usuario>alcalist</Usuario>";
+                xmlSend += "<Clave>123</Clave>";
                 xmlSend += "<Datos>";
                 xmlSend += xml;
                 xmlSend += "</Datos>";

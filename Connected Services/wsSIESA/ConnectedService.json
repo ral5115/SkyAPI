@@ -6,7 +6,7 @@
   },
   "ExtendedData": {
     "inputs": [
-      "http://191.88.120.186:8080/WSUNOEE/WSUNOEE.asmx"
+      "http://wsanamaria.siesacloud.com:8080/wsunoee/WSUNOEE.asmx"
     ],
     "collectionTypes": [
       "System.Array",

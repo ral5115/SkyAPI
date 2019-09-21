@@ -43,6 +43,7 @@ namespace WebAPI.Controllers
                 if (value != null)
                 {
                     plane.Append(planeBuild.BuildInitial(structure, value[0]));//construye linea inicial
+
                     for (int j = 0; j < value.Count; j++)//recorre la lista de registros a enviar
                     {
 
@@ -55,7 +56,10 @@ namespace WebAPI.Controllers
 
 
                     }
+
                     plane.Append(planeBuild.BuildFinal(structure, value[0], ref consectLine));//construye linea final
+
+
                     string Plano = plane.ToString();
                     String PlanoSinEtiquetas = Plano.Replace("<Linea>", "").Replace("</Linea>", "");
                     //var SavePlane = new StreamWriter($@"C:\inetpub\wwwroot\SKYApi\planos\Pedido{DateTime.Now.ToString("ddMMyyyy")}.txt");
