@@ -202,11 +202,11 @@ namespace wsSIESA
         {
             if ((endpointConfiguration == EndpointConfiguration.WSUNOEESoap))
             {
-                return new System.ServiceModel.EndpointAddress("http://191.88.120.186:8080/wsunoee/WSUNOEE.asmx");
+                return new System.ServiceModel.EndpointAddress("http://wsanamaria.siesacloud.com:8080/wsunoee/WSUNOEE.asmx");
             }
             if ((endpointConfiguration == EndpointConfiguration.WSUNOEESoap12))
             {
-                return new System.ServiceModel.EndpointAddress("http://191.88.120.186:8080/wsunoee/WSUNOEE.asmx");
+                return new System.ServiceModel.EndpointAddress("http://wsanamaria.siesacloud.com:8080/wsunoee/WSUNOEE.asmx");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }

@@ -108,6 +108,16 @@ namespace WebAPI.BLL
                                 else
                                     plane.Append($"{decimalVal[0].ToString().PadLeft(ent, '0')}.{("0").PadRight(dec, '0')}");
                             }
+                            else if (structureDetail[i]["Tipo"].ToString() == "DecimalConSigno")
+                            {
+                                int ent = int.Parse((structureDetail[i]["Enteros"]).ToString());
+                                int dec = int.Parse((structureDetail[i]["Decimales"]).ToString());
+                                string[] decimalVal = json[structureDetail[i]["Fuente"].ToString()].ToString().Split(".");
+                                if (decimalVal.Count() > 1)
+                                    plane.Append($"+{decimalVal[0].ToString().PadLeft(ent, '0')}.{decimalVal[1].ToString().PadRight(dec, '0')}");
+                                else
+                                    plane.Append($"+{decimalVal[0].ToString().PadLeft(ent, '0')}.{("0").PadRight(dec, '0')}");
+                            }
                             else
                             {
                                 plane.Append(((string)json[structureDetail[i]["Fuente"].ToString()]).PadLeft(length, '0'));
@@ -136,8 +146,7 @@ namespace WebAPI.BLL
                 int sections = structure.Tables[3].Rows.Count;//extrae cantidad de secciones a recorrer de los detalles
                 for (int id = 0; id < sections; id++)//recorre las secciones
                 {
-                    DataRow[] structureDetail = structure.Tables[2].Select(
-                        "desc_seccion = '" + structure.Tables[3].Rows[id]["desc_seccion"].ToString() + "'");//extrae los detalle de la seccion en curso
+                    DataRow[] structureDetail = structure.Tables[2].Select("desc_seccion = '" + structure.Tables[3].Rows[id]["desc_seccion"].ToString() + "'");//extrae los detalle de la seccion en curso
 
                     var detailexist = json[structureDetail[0]["desc_seccion"].ToString()];//verifica que se esten enviando detalles en el json
                     if (detailexist != null)
@@ -203,6 +212,16 @@ namespace WebAPI.BLL
                                             else
                                                 plane.Append($"{decimalVal[0].ToString().PadLeft(ent, '0')}.{("0").PadRight(dec, '0')}");
 
+                                        }
+                                        else if (structureDetail[i]["Tipo"].ToString() == "DecimalConSigno")
+                                        {
+                                            int ent = int.Parse((structureDetail[i]["Enteros"]).ToString());
+                                            int dec = int.Parse((structureDetail[i]["Decimales"]).ToString());
+                                            string[] decimalVal = json[structureDetail[i]["desc_seccion"].ToString()][t][structureDetail[i]["Fuente"].ToString()].ToString().Split(".");
+                                            if (decimalVal.Count() > 1)
+                                                plane.Append($"+{decimalVal[0].ToString().PadLeft(ent, '0')}.{decimalVal[1].ToString().PadRight(dec, '0')}");
+                                            else
+                                                plane.Append($"+{decimalVal[0].ToString().PadLeft(ent, '0')}.{("0").PadRight(dec, '0')}");
                                         }
                                         else
                                         {
