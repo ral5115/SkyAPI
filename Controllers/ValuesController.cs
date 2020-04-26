@@ -35,6 +35,7 @@ namespace WebAPI.Controllers
                 //llama la estructura del conector
 
                 DataSet structure = new DataSet();
+
                 SQLTransaction ejecutar = new SQLTransaction();
                 structure = ejecutar.GetStruct();
                 planeBuild = new PlaneBuilder();
