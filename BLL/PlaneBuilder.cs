@@ -284,7 +284,7 @@ namespace WebAPI.BLL
             return plane.ToString();
         }
 
-        public string SendInformationWS(string xml)
+        public string SendInformationWS(string xml, string cia)
         {
             try
             {
@@ -294,10 +294,10 @@ namespace WebAPI.BLL
 
 
                 xmlSend = "<Importar>";
-                xmlSend += "<NombreConexion>UnoEE_PbAnamaria_Pruebas</NombreConexion>";
-                xmlSend += "<IdCia>1</IdCia>";
-                xmlSend += "<Usuario>alcalist</Usuario>";
-                xmlSend += "<Clave>123</Clave>";
+                xmlSend += "<NombreConexion>unoee</NombreConexion>";
+                xmlSend += $"<IdCia>{cia}</IdCia>";
+                xmlSend += "<Usuario>auxcontable</Usuario>";
+                xmlSend += "<Clave>1234</Clave>";
                 xmlSend += "<Datos>";
                 xmlSend += xml;
                 xmlSend += "</Datos>";

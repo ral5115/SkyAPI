@@ -62,10 +62,11 @@ namespace WebAPI.Controllers
 
                     string Plano = plane.ToString();
                     String PlanoSinEtiquetas = Plano.Replace("<Linea>", "").Replace("</Linea>", "");
+                    string cia = PlanoSinEtiquetas.Substring(17, 1);
                     //var SavePlane = new StreamWriter($@"C:\inetpub\wwwroot\SKYApi\planos\Pedido{DateTime.Now.ToString("ddMMyyyy")}.txt");
                     //SavePlane.WriteLine(PlanoSinEtiquetas);
                     //SavePlane.Close();
-                    result = planeBuild.SendInformationWS(Plano);
+                    result = planeBuild.SendInformationWS(Plano, cia);
                     return result;
                 }
                 return "No se envio ningun Body..";
