@@ -20,7 +20,7 @@ namespace WebAPI.BLL
             {
                 plane = new StringBuilder("<Linea>000000100000001");
                 DataRow[] structureDetail = structure.Tables[1].Select("desc_seccion = 'Inicial'");//consulta estructura de linea inicial
-
+               
                 //valida su se esta enviando variable o fija la compañia
                 if (structureDetail[structureDetail.Length - 1]["Fuente"].ToString() == "")
                 {
@@ -33,10 +33,10 @@ namespace WebAPI.BLL
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw new Exception("Hay campos de la seccion inicial que no se estan llenando", e);
             }
             plane.Append("</Linea>");
             return plane.ToString();
@@ -275,10 +275,10 @@ namespace WebAPI.BLL
                 plane.Append("</Linea>");
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw new Exception("Hay campos de la seccion final que no se estan llenando", e);
             }
 
             return plane.ToString();
