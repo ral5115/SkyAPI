@@ -180,6 +180,7 @@ namespace wsSIESA
                 result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
                 result.MaxReceivedMessageSize = int.MaxValue;
                 result.AllowCookies = true;
+                result.SendTimeout = System.TimeSpan.FromHours(10);
                 return result;
             }
             if ((endpointConfiguration == EndpointConfiguration.WSUNOEESoap12))
@@ -192,6 +193,7 @@ namespace wsSIESA
                 httpBindingElement.AllowCookies = true;
                 httpBindingElement.MaxBufferSize = int.MaxValue;
                 httpBindingElement.MaxReceivedMessageSize = int.MaxValue;
+                result.SendTimeout = System.TimeSpan.FromHours(10);
                 result.Elements.Add(httpBindingElement);
                 return result;
             }

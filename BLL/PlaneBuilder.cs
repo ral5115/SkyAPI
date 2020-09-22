@@ -7,6 +7,7 @@ namespace WebAPI.BLL
     using System.Data;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
     using System.Xml.Linq;
 
     public class PlaneBuilder
@@ -290,14 +291,15 @@ namespace WebAPI.BLL
             {
                 string xmlSend;
                 wsSIESA.WSUNOEESoap ws = new wsSIESA.WSUNOEESoapClient(wsSIESA.WSUNOEESoapClient.EndpointConfiguration.WSUNOEESoap);
+                
                 wsSIESA.ImportarXMLRequest request = new wsSIESA.ImportarXMLRequest();
 
 
                 xmlSend = "<Importar>";
-                xmlSend += "<NombreConexion>unoee</NombreConexion>";
+                xmlSend += "<NombreConexion>UnoEE</NombreConexion>";
                 xmlSend += $"<IdCia>{cia}</IdCia>";
-                xmlSend += "<Usuario>auxcontable</Usuario>";
-                xmlSend += "<Clave>1234</Clave>";
+                xmlSend += "<Usuario>easy.sales</Usuario>";
+                xmlSend += "<Clave>34s12020</Clave>";
                 xmlSend += "<Datos>";
                 xmlSend += xml;
                 xmlSend += "</Datos>";
@@ -305,7 +307,10 @@ namespace WebAPI.BLL
 
                 request.printTipoError = 0;
                 request.pvstrDatos = xmlSend;
-                var result = ws.ImportarXMLAsync(request).Result;
+
+
+                var result =  ws.ImportarXMLAsync(request).Result;
+                
                 if (result.printTipoError == 0)
                 {
                     return "Importacion Exitosa";
