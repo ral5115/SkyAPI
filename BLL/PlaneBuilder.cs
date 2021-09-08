@@ -296,7 +296,7 @@ namespace WebAPI.BLL
 
 
                 xmlSend = "<Importar>";
-                xmlSend += "<NombreConexion>UnoEE</NombreConexion>";
+                xmlSend += "<NombreConexion>produccion</NombreConexion>";
                 xmlSend += $"<IdCia>{cia}</IdCia>";
                 xmlSend += "<Usuario>easy.sales</Usuario>";
                 xmlSend += "<Clave>34s12020</Clave>";

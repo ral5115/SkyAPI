@@ -204,11 +204,11 @@ namespace wsSIESA
         {
             if ((endpointConfiguration == EndpointConfiguration.WSUNOEESoap))
             {
-                return new System.ServiceModel.EndpointAddress("http://10.75.110.2/wsunoee/WSUNOEE.asmx");
+                return new System.ServiceModel.EndpointAddress("http://localhost/wsunoee/WSUNOEE.asmx");
             }
             if ((endpointConfiguration == EndpointConfiguration.WSUNOEESoap12))
             {
-                return new System.ServiceModel.EndpointAddress("http://10.75.110.2/wsunoee/WSUNOEE.asmx");
+                return new System.ServiceModel.EndpointAddress("http://localhost/wsunoee/WSUNOEE.asmx");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }

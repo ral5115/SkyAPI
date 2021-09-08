@@ -12,7 +12,7 @@ namespace WebAPI.DAO
 {
     public class SQLTransaction
     {
-public static IConfiguration Configuration { get; set; }
+    public static IConfiguration Configuration { get; set; }
         public DataSet GetStruct()
         {
             

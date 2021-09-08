@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebAPI.BLL;
@@ -23,6 +24,7 @@ namespace WebAPI.Controllers
         PlaneBuilder planeBuild;
         StringBuilder plane = new StringBuilder();
         int consectLine = 1;
+        public static IConfiguration Configuration { get; set; }
 
         // POST api/values
         [HttpPost]
@@ -64,9 +66,17 @@ namespace WebAPI.Controllers
                     string Plano = plane.ToString();
                     String PlanoSinEtiquetas = Plano.Replace("<Linea>", "").Replace("</Linea>", "");
                     string cia = PlanoSinEtiquetas.Substring(17, 1);
-                    //var SavePlane = new StreamWriter($@"C:\inetpub\wwwroot\SKYApi\planos\Pedido{DateTime.Now.ToString("ddMMyyyy")}.txt");
-                    //SavePlane.WriteLine(PlanoSinEtiquetas);
-                    //SavePlane.Close();
+
+                    var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+                    Configuration = builder.Build();
+                   
+                    if (Configuration.GetSection("GeneratePlane").Value.Equals("True"))
+                    {
+                    var SavePlane = new StreamWriter($@"C:\Users\Public\Documents\Pedido{DateTime.Now.ToString("ddMMyyyy")}.txt");
+                    SavePlane.WriteLine(PlanoSinEtiquetas);
+                    SavePlane.Close();
+                    }
+                    
                     result = planeBuild.SendInformationWS(Plano, cia);
                     return result;
                 }

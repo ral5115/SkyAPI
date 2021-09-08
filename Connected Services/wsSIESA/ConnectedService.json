@@ -6,7 +6,7 @@
   },
   "ExtendedData": {
     "inputs": [
-      "http://10.75.110.2/wsunoee/WSUNOEE.asmx"
+      "http://localhost/wsunoee/WSUNOEE.asmx"
     ],
     "collectionTypes": [
       "System.Array",
